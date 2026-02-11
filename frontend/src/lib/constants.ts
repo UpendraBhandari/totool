@@ -40,14 +40,14 @@ export const FILE_TYPES = {
     required: true,
   },
   high_risk_countries: {
-    key: "high_risk_countries",
+    key: "high-risk-countries",
     label: "High-Risk Countries",
     description:
       "Upload the list of high-risk countries with their risk classifications.",
     required: true,
   },
   work_instructions: {
-    key: "work_instructions",
+    key: "work-instructions",
     label: "Work Instructions",
     description:
       "Upload any existing work instructions associated with customers.",

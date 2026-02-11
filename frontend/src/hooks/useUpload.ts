@@ -8,6 +8,14 @@ import {
 } from "@/lib/api";
 import type { UploadStatus, UploadResponse } from "@/lib/types";
 
+/** Map API route keys (hyphens) to UploadStatus keys (underscores) */
+const STATUS_KEY_MAP: Record<string, keyof UploadStatus> = {
+  transactions: "transactions",
+  watchlist: "watchlist",
+  "high-risk-countries": "high_risk_countries",
+  "work-instructions": "work_instructions",
+};
+
 interface UploadState {
   status: UploadStatus;
   loading: boolean;
@@ -54,13 +62,14 @@ export function useUpload() {
       setState((prev) => ({ ...prev, loading: true, error: null }));
       try {
         const result = await apiUpload(type, file);
+        const statusKey = STATUS_KEY_MAP[type] ?? type;
         setState((prev) => ({
           ...prev,
           loading: false,
-          status: { ...prev.status, [type]: true },
+          status: { ...prev.status, [statusKey]: true },
           fileResults: {
             ...prev.fileResults,
-            [type]: {
+            [statusKey]: {
               filename: file.name,
               recordCount: result.record_count,
             },
