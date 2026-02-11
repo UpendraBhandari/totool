@@ -70,7 +70,7 @@ export default function TransactionTimeline({
       <h3 className="mb-4 text-sm font-semibold text-gray-900">
         Transaction Timeline
       </h3>
-      <div className="h-72 w-full">
+      <div className="h-96 w-full">
         <ResponsiveContainer width="100%" height="100%">
           <ComposedChart
             data={data}

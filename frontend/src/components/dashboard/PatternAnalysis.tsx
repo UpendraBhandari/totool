@@ -55,13 +55,13 @@ export default function PatternAnalysis({ patterns }: PatternAnalysisProps) {
       <h3 className="text-sm font-semibold text-gray-900">Pattern Analysis</h3>
 
       {/* Charts */}
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         {/* Monthly volume bar chart */}
         <Card className="p-4">
           <p className="mb-3 text-xs font-medium uppercase tracking-wider text-abn-grey">
             Monthly Transaction Volume
           </p>
-          <div className="h-56 w-full">
+          <div className="h-72 w-full">
             {monthlyData.length > 0 ? (
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart
@@ -119,7 +119,7 @@ export default function PatternAnalysis({ patterns }: PatternAnalysisProps) {
           <p className="mb-3 text-xs font-medium uppercase tracking-wider text-abn-grey">
             Transaction Type Distribution
           </p>
-          <div className="h-56 w-full">
+          <div className="h-72 w-full">
             {typeData.length > 0 ? (
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>

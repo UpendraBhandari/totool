@@ -1,10 +1,11 @@
 "use client";
 
-import { use } from "react";
+import { use, useState } from "react";
 import Link from "next/link";
 import { useCustomerData } from "@/hooks/useCustomerData";
 import Spinner from "@/components/ui/Spinner";
 import Alert from "@/components/ui/Alert";
+import Tabs from "@/components/ui/Tabs";
 import CustomerHeader from "@/components/dashboard/CustomerHeader";
 import RiskScore from "@/components/dashboard/RiskScore";
 import SuspiciousFlags from "@/components/dashboard/SuspiciousFlags";
@@ -21,6 +22,7 @@ interface PageProps {
 export default function CustomerPage({ params }: PageProps) {
   const { bcn } = use(params);
   const { data, loading, error } = useCustomerData(bcn);
+  const [activeTab, setActiveTab] = useState("overview");
 
   /* ---- Loading ---- */
   if (loading) {
@@ -64,6 +66,33 @@ export default function CustomerPage({ params }: PageProps) {
     );
   }
 
+  /* ---- Tab definitions with badges ---- */
+  const alertCount = data.alerts.length;
+  const transactionCount = data.transactions.length;
+  const watchlistCount = data.watchlist_matches.length;
+
+  const tabs = [
+    {
+      id: "overview",
+      label: "Overview",
+      badge: { count: alertCount, variant: "alert" as const },
+    },
+    {
+      id: "transactions",
+      label: "Transactions",
+      badge: { count: transactionCount, variant: "neutral" as const },
+    },
+    {
+      id: "patterns",
+      label: "Patterns",
+    },
+    {
+      id: "compliance",
+      label: "Compliance",
+      badge: { count: watchlistCount, variant: "alert" as const },
+    },
+  ];
+
   /* ---- Success ---- */
   return (
     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
@@ -88,41 +117,47 @@ export default function CustomerPage({ params }: PageProps) {
         Back to Search
       </Link>
 
-      <div className="space-y-6">
-        {/* Row 1: Customer header + Risk score */}
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-          <div className="lg:col-span-2">
-            <CustomerHeader customer={data} />
-          </div>
-          <div>
-            <RiskScore assessment={data.risk_assessment} />
-          </div>
+      {/* Persistent header: Customer info + Risk score */}
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+        <div className="lg:col-span-2">
+          <CustomerHeader customer={data} />
         </div>
+        <div>
+          <RiskScore assessment={data.risk_assessment} />
+        </div>
+      </div>
 
-        {/* Row 2: Suspicious flags */}
-        <SuspiciousFlags alerts={data.alerts} />
+      {/* Tab bar */}
+      <div className="mt-6">
+        <Tabs tabs={tabs} activeTab={activeTab} onTabChange={setActiveTab} />
+      </div>
 
-        {/* Row 3: Timeline + Pattern Analysis */}
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-          <div className="lg:col-span-2">
+      {/* Tab content */}
+      <div className="mt-6">
+        {activeTab === "overview" && (
+          <SuspiciousFlags alerts={data.alerts} />
+        )}
+
+        {activeTab === "transactions" && (
+          <div className="space-y-6">
             <TransactionTimeline
               transactions={data.transactions}
               alerts={data.alerts}
             />
+            <TransactionTable transactions={data.transactions} />
           </div>
-          <div>
-            <PatternAnalysis patterns={data.patterns} />
+        )}
+
+        {activeTab === "patterns" && (
+          <PatternAnalysis patterns={data.patterns} />
+        )}
+
+        {activeTab === "compliance" && (
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+            <WatchlistMatches matches={data.watchlist_matches} />
+            <WorkInstructions instructions={data.work_instructions} />
           </div>
-        </div>
-
-        {/* Row 4: Transaction table */}
-        <TransactionTable transactions={data.transactions} />
-
-        {/* Row 5: Watchlist + Work instructions */}
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-          <WatchlistMatches matches={data.watchlist_matches} />
-          <WorkInstructions instructions={data.work_instructions} />
-        </div>
+        )}
       </div>
     </div>
   );
