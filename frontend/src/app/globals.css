@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #1a1a1a;
+  --abn-teal: #009488;
+  --abn-teal-dark: #007D73;
+  --abn-teal-light: #E0F5F3;
+  --abn-yellow: #F9BD20;
+  --abn-yellow-light: #FCD97A;
+  --abn-grey: #878787;
+  --abn-grey-light: #B0B0B0;
+  --abn-grey-dark: #5A5A5A;
+  --risk-low: #4CAF50;
+  --risk-medium: #F9BD20;
+  --risk-high: #FF9800;
+  --risk-critical: #F44336;
+  --flag-bg: #FEF2F2;
+  --flag-border: #FECACA;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-abn-teal: var(--abn-teal);
+  --color-abn-teal-dark: var(--abn-teal-dark);
+  --color-abn-teal-light: var(--abn-teal-light);
+  --color-abn-yellow: var(--abn-yellow);
+  --color-abn-yellow-light: var(--abn-yellow-light);
+  --color-abn-grey: var(--abn-grey);
+  --color-abn-grey-light: var(--abn-grey-light);
+  --color-abn-grey-dark: var(--abn-grey-dark);
+  --color-risk-low: var(--risk-low);
+  --color-risk-medium: var(--risk-medium);
+  --color-risk-high: var(--risk-high);
+  --color-risk-critical: var(--risk-critical);
+  --color-flag-bg: var(--flag-bg);
+  --color-flag-border: var(--flag-border);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--abn-grey-light);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--abn-grey);
+}

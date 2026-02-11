@@ -1,0 +1,31 @@
+# Dependencies
+node_modules/
+
+# Python
+__pycache__/
+venv/
+*.pyc
+*.pyo
+
+# Environment
+.env
+.env.local
+.env.*
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Next.js
+.next/
+out/
+
+# Claude Code
+.claude/
+
+# Uploads
+uploads/
